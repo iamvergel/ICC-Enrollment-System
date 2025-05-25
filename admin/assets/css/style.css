@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
+.background-radial-gradient {
+  background-color: hsl(244, 66%, 40%);
+  background-image: radial-gradient(
+      650px circle at 0% 0%,
+      hsl(245, 70%, 42%) 15%,
+      hsl(243, 60%, 38%) 35%,
+      hsl(246, 65%, 45%) 70%,
+      hsl(242, 68%, 36%) 80%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1250px circle at 100% 100%,
+      hsl(244, 67%, 43%) 15%,
+      hsl(246, 63%, 41%) 35%,
+      hsl(243, 64%, 38%) 70%,
+      hsl(241, 65%, 35%) 80%,
+      transparent 100%
+    );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100vh;
+}
+
+.btn-primary {
+  background-color: #2347AB !important;
+}
+
+.btn-primary:hover {
+  background-color: #3659b1 !important;
+}
+
+.container-fluid {
+  height: 100vh;
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    height: 100%;
+  }
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.6) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
