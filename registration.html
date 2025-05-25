@@ -18,6 +18,12 @@
       integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
       crossorigin="anonymous"
     />
+
+    <!-- Bootsrap Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
   </head>
   <body>
     <!-- Section: Design Block -->
@@ -37,153 +43,257 @@
         </div>
 
         <div class="container">
-          <div class="row">
-            <div class="col-md-4 mb-3 mt-3 mt-lg-0">
-              <div class="form-group">
-                <label for="Firstname">Firstname:</label>
-                <input
-                  type="text"
-                  class="form-control border-secondary"
-                  id="Firstname"
-                  name="Firstname"
-                />
-              </div>
+          <form action="#" id="registrationForm" method="POST">
+            <div>
+              <p class="fs-5 fw-semibold ls-tight text-dark">
+                Primary Information
+              </p>
             </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="Lastname">Lastname:</label>
-                <input
-                  type="text"
-                  class="form-control border-secondary"
-                  id="Lastname"
-                  name="Lastname"
-                />
+            <div class="row">
+              <div class="col-md-4 mb-3 mt-3 mt-lg-0">
+                <div class="form-group">
+                  <label for="Grade">Grade:</label>
+                  <select
+                    class="form-select border-secondary"
+                    id="Grade"
+                    name="Grade"
+                    required
+                  >
+                    <option value="" disabled selected>Select Grade</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="Middlename">Middlename:</label>
-                <input
-                  type="text"
-                  class="form-control border-secondary"
-                  id="Middlename"
-                  name="Middlename"
-                />
+              <div class="col-md-4 mb-3 mt-3 mt-lg-0">
+                <div class="form-group">
+                  <label for="Strand">Strand:</label>
+                  <select
+                    class="form-select border-secondary"
+                    id="Strand"
+                    name="Strand"
+                    required
+                  >
+                    <option value="" disabled selected>Select Strand</option>
+                    <option value="STEM">STEM</option>
+                    <option value="ABM">ABM</option>
+                    <option value="HUMSS">HUMSS</option>
+                    <option value="GAS">GAS</option>
+                    <option value="ICT">ICT</option>
+                    <option value="HE">HE</option>
+                    <option value="SPORTS">SPORTS</option>
+                  </select>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="LRN">LRN:</label>
-                <input type="text" class="form-control border-secondary" id="lrn" name="lrn" />
+              <div class="col-md-4 mb-3 mt-3 mt-lg-0 d-none d-lg-block"></div>
+              <div class="col-md-4 my-5">
+                <div class="form-group">
+                  <label for="LRN">LRN:</label>
+                  <input
+                    type="text"
+                    class="form-control border-secondary"
+                    id="lrn"
+                    name="lrn"
+                    required
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,12);"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="birthday">Birthday:</label>
-                <input
-                  type="date"
-                  class="form-control border-secondary"
-                  id="birthday"
-                  name="birthday"
-                />
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="age">Age:</label>
-                <input
-                  type="number"
-                  class="form-control border-secondary"
-                  id="age"
-                  name="age"
-                  min="1"
-                  max="120"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="gender">Gender:</label>
-                <input
-                  type="text"
-                  class="form-control border-secondary"
-                  id="gender"
-                  name="gender"
-                />
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="contact">Contact Number:</label>
-                <input
-                  type="text"
-                  class="form-control border-secondary"
-                  id="contact"
-                  name="contact"
-                />
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input
-                  type="email"
-                  class="form-control border-secondary"
-                  id="email"
-                  name="email"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-4 mb-3">
-              <label for="password">Password:</label>
-              <input
-                type="password"
-                class="form-control border-secondary"
-                id="password"
-                name="password"
-              />
             </div>
 
-            <div class="form-group col-md-4 mb-5">
-              <label for="confirmPassword">Confirm Password:</label>
-              <input
-                type="password"
-                class="form-control border-secondary"
-                id="confirmPassword"
-                name="confirmPassword"
-              />
+            <div>
+              <p class="fs-5 fw-semibold ls-tight text-dark">
+                Personal Information
+              </p>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-md-4 d-nobe d-lg-block"></div>
-            <div class="col-md-4 d-nobe d-lg-block"></div>
-            <div class="col-md-4">
-              <button
-                class="btn btn-primary btn-block mb-4 border-0 w-100"
-                onclick="registerUser()"
+            <div class="row">
+              <div class="col-md-4 mb-3 mt-3 mt-lg-0">
+                <div class="form-group">
+                  <label for="Firstname">Firstname:</label>
+                  <input
+                    type="text"
+                    class="form-control border-secondary"
+                    id="Firstname"
+                    name="Firstname"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="Lastname">Lastname:</label>
+                  <input
+                    type="text"
+                    class="form-control border-secondary"
+                    id="Lastname"
+                    name="Lastname"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="Middlename">Middlename:</label>
+                  <input
+                    type="text"
+                    class="form-control border-secondary"
+                    id="Middlename"
+                    name="Middlename"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="birthday">Birthday:</label>
+                  <input
+                    type="date"
+                    class="form-control border-secondary"
+                    id="birthday"
+                    name="birthday"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="age">Age:</label>
+                  <input
+                    type="number"
+                    class="form-control border-secondary"
+                    id="age"
+                    name="age"
+                    min="1"
+                    max="120"
+                    readonly
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="gender">Gender:</label>
+                  <select
+                    class="form-select border-secondary"
+                    id="gender"
+                    name="gender"
+                    required
+                  >
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="contact">Contact Number:</label>
+                  <input
+                    type="text"
+                    class="form-control border-secondary"
+                    id="contact"
+                    name="contact"
+                    required
+                    maxlength="13"
+                    value="+63"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="fs-5 fw-semibold ls-tight text-dark mt-5">
+                Account Information
+              </p>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input
+                    type="email"
+                    class="form-control border-secondary"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4"></div>
+              <div
+                data-mdb-input-init
+                class="col-md-4 form-outline position-relative"
               >
-                Register
-              </button>
+                <label for="confirmPassword">Password:</label>
+                <div class="d-flex justify-content-center align-items-center">
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control border-secondary pe-5 rounded-0 rounded-start"
+                    required
+                  />
+                  <span
+                    id="togglePassword"
+                    class="btn btn-secondary rounded-0 rounded-end"
+                  >
+                    <i class="bi bi-eye-slash" style="cursor: pointer"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4 mb-5">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input
+                  type="password"
+                  class="form-control border-secondary"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  required
+                />
+              </div>
             </div>
-          </div>
+
+            <div class="row mt-5">
+              <div class="col-md-4 d-nobe d-lg-block"></div>
+              <div class="col-md-4 d-nobe d-lg-block"></div>
+              <div class="col-md-4">
+                <button class="btn btn-primary btn-block mb-4 border-0 w-100 d-none" id="loadingSpinner" disabled>
+                  <span class="spinner-border spinner-border-sm" role="status"></span>
+                </button>
+                <button
+                  class="btn btn-primary btn-block mb-4 border-0 w-100"
+                  type="submit"
+                  id="submitButton"
+                >
+                  Register
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </section>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
     <!-- Section: Design Block -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
+
+    <script src="admin/assets/js/main.js"></script>
   </body>
 </html>

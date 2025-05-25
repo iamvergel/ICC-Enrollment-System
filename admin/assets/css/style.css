@@ -40,6 +40,16 @@
   background-color: #3659b1 !important;
 }
 
+.btn-outline-primary {
+  color: #2347AB !important;
+  border-color: #2347AB !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #2347AB !important;
+  color: #fff !important;
+}
+
 .container-fluid {
   height: 100vh;
 }
