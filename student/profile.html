@@ -120,9 +120,9 @@
           <h5 class="fw-normal pt-2">My Profile</h5>
         </div>
 
-        <div class="text-center">
+        <div class="text-start">
           <!-- <h1>Welcome Student <span id="studentName"></span></h1> -->
-          <p class="lead">Email: <span id="studentEmail"></span></p>
+          <!-- <p class="lead">Email: <span id="studentEmail"></span></p> -->
           <div id="studentInfo" class="mt-4"></div>
         </div>
       </section>
@@ -162,7 +162,7 @@
         window.location.href = "../../../index.html";
       }
 
-      document.getElementById("studentEmail").textContent = email;
+    //   document.getElementById("studentEmail").textContent = email;
 
       db.collection("registrations")
         .where("email", "==", email)
@@ -177,11 +177,100 @@
             //   data.lastname + ", " + data.firstname + " " + data.middlename ||
             //   "N/A";
 
-            let html = "<ul class='list-group'>";
-            for (let key in data) {
-              html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
-            }
-            html += "</ul>";
+            let html = `
+            <form class="row g-3 justify-content-center p-5">
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input type="email" class="form-control border-secondary" value="${
+                    data.email || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">LRN</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.lrn || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">First Name</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.firstname || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Middle Name</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.middlename || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Last Name</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.lastname || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Gender</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.gender || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Birthday</label>
+                <input type="date" class="form-control border-secondary" value="${
+                    data.birthday || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Age</label>
+                <input type="number" class="form-control border-secondary" value="${
+                    data.age || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Contact</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.contact || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Grade</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.grade || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Strand</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.strand || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Section</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.section || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Status</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.status || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Role</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.role || ""
+                }" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input type="text" class="form-control border-secondary" value="${
+                    data.password || ""
+                }" readonly />
+                </div>
+            </form>
+            `;
             document.getElementById("studentInfo").innerHTML = html;
           }
         })
@@ -191,7 +280,6 @@
             "<div class='alert alert-danger'>Error loading student data.</div>";
         });
 
-      
       function logout() {
         const confirmLogout = confirm("Are you sure you want to logout?");
         if (confirmLogout) {
@@ -208,6 +296,14 @@
       }
 
       document.getElementById("admin-email").textContent = email || "Admin";
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+        const content = document.getElementById("content");
+
+        sidebar.classList.toggle("active");
+        sidebarBackdrop.classList.toggle("d-none");
+      }
     </script>
   </body>
 </html>

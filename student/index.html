@@ -120,9 +120,13 @@
           <h5 class="fw-normal pt-2">Dashboard</h5>
         </div>
 
-        <div class="text-center">
-          <h1>Welcome Student <span id="studentName"></span></h1>
-          <p class="lead">Email: <span id="studentEmail"></span></p>
+        <div class="conatiner text-center p-3">
+          <div class="bg-primary text-light p-3 rounded-2">
+            <h1>
+              Welcome Student <span class="fw-bold" id="studentName"></span>
+            </h1>
+            <p class="lead">Email: <span id="studentEmail"></span></p>
+          </div>
           <div id="studentInfo" class="mt-4"></div>
           <div id="subjectInfo" class="mt-4"></div>
         </div>
@@ -165,32 +169,32 @@
 
       document.getElementById("studentEmail").textContent = email;
 
-      db.collection("registrations")
-        .where("email", "==", email)
-        .get()
-        .then((querySnapshot) => {
-          if (querySnapshot.empty) {
-            document.getElementById("studentInfo").innerHTML =
-              "<div class='alert alert-danger'>Student data not found.</div>";
-          } else {
-            const data = querySnapshot.docs[0].data();
-            document.getElementById("studentName").textContent =
-              data.lastname + ", " + data.firstname + " " + data.middlename ||
-              "N/A";
+      // db.collection("registrations")
+      //   .where("email", "==", email)
+      //   .get()
+      //   .then((querySnapshot) => {
+      //     if (querySnapshot.empty) {
+      //       document.getElementById("studentInfo").innerHTML =
+      //         "<div class='alert alert-danger'>Student data not found.</div>";
+      //     } else {
+      //       const data = querySnapshot.docs[0].data();
+      //       document.getElementById("studentName").textContent =
+      //         data.lastname + ", " + data.firstname + " " + data.middlename ||
+      //         "N/A";
 
-            let html = "<ul class='list-group'>";
-            for (let key in data) {
-              html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
-            }
-            html += "</ul>";
-            document.getElementById("studentInfo").innerHTML = html;
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching student data:", error);
-          document.getElementById("studentInfo").innerHTML =
-            "<div class='alert alert-danger'>Error loading student data.</div>";
-        });
+      //       let html = "<ul class='list-group'>";
+      //       for (let key in data) {
+      //         html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
+      //       }
+      //       html += "</ul>";
+      //       document.getElementById("studentInfo").innerHTML = html;
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching student data:", error);
+      //     document.getElementById("studentInfo").innerHTML =
+      //       "<div class='alert alert-danger'>Error loading student data.</div>";
+      //   });
 
       db.collection("registrations")
         .where("email", "==", email)
@@ -205,11 +209,21 @@
               data.lastname
             }, ${data.firstname} ${data.middlename || ""}`;
 
-            let html = "<ul class='list-group'>";
-            for (let key in data) {
-              html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
-            }
-            html += "</ul>";
+            // let html = "<ul class='list-group'>";
+            // for (let key in data) {
+            //   html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
+            // }
+            // html += "</ul>";
+
+            let html = `<div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 list-group-item"><strong>Strand:</strong> ${data.strand}</div>
+                  <div class="col-md-4 list-group-item"><strong>Grade:</strong> ${data.grade}</div>
+                  <div class="col-md-4 list-group-item"><strong>Section:</strong> ${data.section}</div>
+                </div>
+              </div>
+            </div>`;
             document.getElementById("studentInfo").innerHTML = html;
 
             db.collection("subjects")
@@ -223,16 +237,17 @@
                 } else {
                   const subjectData = querySnapshot.docs[0].data();
                   let subjectsList = subjectData.subjects
-                    .split(/[\n,]+/) // split by newline or comma
+                    .split(/[\n,]+/)
                     .filter((s) => s.trim() !== "");
 
-                  let subjectHtml = "<h5 class='card-title fw-bold'>Subjects:</h5><ul class='list-group'>";
+                  let subjectHtml =
+                    "<h5 class='card-title fw-bold'>My Subjects:</h5><ul class='list-group list-group-flush'>";
                   subjectsList.forEach((subject) => {
-                    const words = subject.trim().split(/\s+/); // split subject into words by space
+                    const words = subject.trim().split(/\s+/);
                     const dottedSubject = words
-                      .map((word) => `• ${word}`)
+                      .map((word) => `&bull; ${word}`)
                       .join(" ");
-                    subjectHtml += `<li class='list-group-item'>${dottedSubject}</li>`;
+                    subjectHtml += `<li class='list-group-item list-group-item-action'>${dottedSubject}</li>`;
                   });
                   subjectHtml += "</ul>";
                   document.getElementById("subjectInfo").innerHTML =
@@ -268,6 +283,15 @@
       }
 
       document.getElementById("admin-email").textContent = email || "Admin";
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+        const content = document.getElementById("content");
+
+        sidebar.classList.toggle("active");
+        sidebarBackdrop.classList.toggle("d-none");
+      }
     </script>
   </body>
 </html>
