@@ -195,8 +195,9 @@
             "<div class='alert alert-danger'>Error loading student data.</div>";
         });
 
-      db.collection("registrations")
-        .where("email", "==", email)
+      db.collection("subjects")
+        .where("strand", "==", data.strand)
+        .where("grade", "==", data.grade)
         .get()
         .then((querySnapshot) => {
           if (querySnapshot.empty) {
