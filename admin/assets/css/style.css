@@ -7,6 +7,68 @@
   scrollbar-width: thin;
 }
 
+/* Sidebar */
+#sidebar {
+  width: 280px;
+  transition: margin-left 0.3s ease;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.active {
+  background-color: red;
+  color: #fff;
+  border-radius: 5px;
+}
+
+#content {
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar-hidden {
+  margin-left: -280px;
+}
+
+@media screen and (max-width: 768px) {
+  #sidebar {
+    margin-left: -280px;
+    border-radius: 0;
+    z-index: 10;
+  }
+
+  #sidebar.active {
+    margin-left: 0;
+  }
+
+  #content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+  }
+}
+
+.sidebar-toggle {
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1050;
+}
+/* end Sidebar */
+
 .background-radial-gradient {
   background-color: hsl(244, 66%, 40%);
   background-image: radial-gradient(
@@ -33,7 +95,7 @@
 }
 
 .btn-primary {
-  background-color: #2347AB !important;
+  background-color: #2347ab !important;
 }
 
 .btn-primary:hover {
@@ -41,12 +103,12 @@
 }
 
 .btn-outline-primary {
-  color: #2347AB !important;
-  border-color: #2347AB !important;
+  color: #2347ab !important;
+  border-color: #2347ab !important;
 }
 
 .btn-outline-primary:hover {
-  background-color: #2347AB !important;
+  background-color: #2347ab !important;
   color: #fff !important;
 }
 

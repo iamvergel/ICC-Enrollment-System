@@ -24,14 +24,114 @@
     />
   </head>
   <body>
-    <section class="overflow-hidden">
-     <div class="text-center">
-        <h1>Welcome Student <span id="studentName"></span></h1>
-        <p class="lead">Email: <span id="studentEmail"></span></p>
-        <div id="studentInfo" class="mt-4"></div>
-        <button class="btn btn-danger mt-4" onclick="logout()">Logout</button>
+    <div class="d-block d-lg-flex">
+      <!-- Sidebar -->
+      <div class="d-lg-none sidebar-backdrop d-none" id="sidebarBackdrop"></div>
+      <div
+        class="d-flex flex-column flex-shrink-0 p-3 bg-body-secondary"
+        id="sidebar"
+      >
+        <a
+          href="#"
+          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+        >
+          <img
+            src="../../admin/assets/images/icclogo.jpg"
+            alt="logo"
+            class="img-fluid rounded-circle me-2"
+            width="38"
+          />
+          <span class="fs-6 fw-semibold lh-1"
+            >Immaculada Concepcion College</span
+          >
+          <i
+            class="bi bi-list sidebar-toggle d-block d-lg-none"
+            onclick="toggleSidebar()"
+          ></i>
+        </a>
+        <hr />
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li>
+            <a
+              href="../student/index.html"
+              class="nav-link"
+              id="dashboardLink"
+              ><i class="bi bi-grid me-2"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a
+              href="../student/profile.html"
+              class="nav-link link-body-emphasis"
+              id="studentLink"
+              ><i class="bi bi-person-fill me-2"></i>My Profile</a
+            >
+          </li>
+          <!-- <li>
+            <a
+              href="../../pages/registration/index.html"
+              class="nav-link link-body-emphasis"
+              id="registrationLink"
+              ><i class="bi bi-card-list me-2"></i>Manage Registration</a
+            >
+          </li>
+          <li>
+            <a
+              href="../../pages/subject/index.html"
+              class="nav-link link-body-emphasis"
+              id="subjectLink"
+              ><i class="bi bi-book-fill me-2"></i>Manage Subject</a
+            >
+          </li> -->
+        </ul>
+        <hr />
+        <div class="dropdown">
+          <a
+            href="#"
+            class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="../../admin/assets/images/icclogo.jpg"
+              alt=""
+              width="32"
+              height="32"
+              class="rounded-circle me-2"
+            />
+            <strong id="admin-email" style="font-size: 12px;"></strong>
+          </a>
+          <ul class="dropdown-menu text-small shadow">
+            <li>
+              <a class="dropdown-item" href="#" onclick="logout()">Sign out</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </section>
+
+      <!-- Content -->
+      <section class="" id="content">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-lg-start bg-body-secondary py-2 py-lg-2 px-2"
+        >
+          <div>
+            <i
+              class="bi bi-list sidebar-toggle d-block d-lg-none"
+              onclick="toggleSidebar()"
+            ></i>
+          </div>
+          <h5 class="fw-normal pt-2">Dashboard</h5>
+        </div>
+
+        <div class="text-center">
+          <h1>Welcome Student <span id="studentName"></span></h1>
+          <p class="lead">Email: <span id="studentEmail"></span></p>
+          <div id="studentInfo" class="mt-4"></div>
+          <div id="subjectInfo" class="mt-4"></div>
+        </div>
+      </section>
+    </div>
+
     <!-- Section: Design Block -->
 
     <!-- Firebase SDKs -->
@@ -78,7 +178,8 @@
           } else {
             const data = querySnapshot.docs[0].data();
             document.getElementById("studentName").textContent =
-              data.lastname + ", " + data.firstname + " " + data.middlename || "N/A";
+              data.lastname + ", " + data.firstname + " " + data.middlename ||
+              "N/A";
 
             let html = "<ul class='list-group'>";
             for (let key in data) {
@@ -93,6 +194,45 @@
           document.getElementById("studentInfo").innerHTML =
             "<div class='alert alert-danger'>Error loading student data.</div>";
         });
+
+      db.collection("registrations")
+        .where("email", "==", email)
+        .get()
+        .then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            document.getElementById("subjectInfo").innerHTML =
+              "<div class='alert alert-danger'>Student subject data not found.</div>";
+          } else {
+            const data = querySnapshot.docs[0].data();
+            let html = "<ul class='list-group'>";
+            db.collection("subjects")
+              .where("grade", "==", data.grade)
+              .where("strand", "==", data.strand)
+              .get()
+              .then((querySnapshot) => {
+                if (querySnapshot.empty) {
+                  document.getElementById("subjectInfo").innerHTML =
+                    "<div class='alert alert-danger'>No subjects found.</div>";
+                } else {
+                  querySnapshot.forEach((doc) => {
+                    html += `<li class='list-group-item'><strong>${doc.data().subjectname}:</strong> ${doc.data().subjectdescription}</li>`;
+                  });
+                  html += "</ul>";
+                  document.getElementById("subjectInfo").innerHTML = html;
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching student data:", error);
+                document.getElementById("subjectInfo").innerHTML =
+                  "<div class='alert alert-danger'>Error loading student data.</div>";
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching student data:", error);
+          document.getElementById("subjectInfo").innerHTML =
+            "<div class='alert alert-danger'>Error loading student data.</div>";
+        });
       function logout() {
         const confirmLogout = confirm("Are you sure you want to logout?");
         if (confirmLogout) {
@@ -100,6 +240,15 @@
           window.location.href = "../../../index.html";
         }
       }
+
+      const currentPath = window.location.pathname;
+      if (currentPath.includes("student/index.html")) {
+        document.getElementById("dashboardLink").classList.add("active");
+      } else if (currentPath.includes("student/profile.html")) {
+        document.getElementById("registrationLink").classList.add("active");
+      }
+
+      document.getElementById("admin-email").textContent = email || "Admin";
     </script>
   </body>
 </html>

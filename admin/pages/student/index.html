@@ -53,7 +53,7 @@
           <li>
             <a
               href="../../pages/dashboard/index.html"
-              class="nav-link"
+              class="nav-link link-body-emphasis"
               id="dashboardLink"
               ><i class="bi bi-grid me-2"></i> Dashboard</a
             >
@@ -61,7 +61,7 @@
           <li>
             <a
               href="../../pages/student/index.html"
-              class="nav-link link-body-emphasis"
+              class="nav-link"
               id="studentLink"
               ><i class="bi bi-people-fill me-2"></i>Manage Student</a
             >
@@ -109,25 +109,15 @@
       </div>
 
       <!-- Content -->
-      <section class="" id="content">
-        <div
-          class="d-flex align-items-center justify-content-between justify-content-lg-start bg-body-secondary py-2 py-lg-2 px-2"
-        >
-          <div>
-            <i
-              class="bi bi-list sidebar-toggle d-block d-lg-none"
-              onclick="toggleSidebar()"
-            ></i>
-          </div>
-          <h5 class="fw-normal pt-2">Dashboard</h5>
-        </div>
-
-        <div class="conatiner text-center p-2">
-          <div class="text-center bg-body-secondary p-3 rounded-2">
-            <h1>Welcome <span id="adminName"></span></h1>
-            <p class="lead">Email: <span id="adminEmail"></span></p>
-            <div id="adminInfo" class="mt-4"></div>
-          </div>
+      <section class="container mt-5" id="content">
+        <i
+          class="bi bi-list sidebar-toggle d-block d-lg-none"
+          onclick="toggleSidebar()"
+        ></i>
+        <div class="text-center">
+          <h1>Welcome <span id="adminName"></span></h1>
+          <p class="lead">Email: <span id="adminEmail"></span></p>
+          <div id="adminInfo" class="mt-4"></div>
         </div>
       </section>
     </div>
