@@ -109,15 +109,67 @@
       </div>
 
       <!-- Content -->
-      <section class="container mt-5" id="content">
-        <i
-          class="bi bi-list sidebar-toggle d-block d-lg-none"
-          onclick="toggleSidebar()"
-        ></i>
-        <div class="text-center">
-          <h1>Welcome <span id="adminName"></span></h1>
-          <p class="lead">Email: <span id="adminEmail"></span></p>
-          <div id="adminInfo" class="mt-4"></div>
+      <section class="" id="content">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-lg-start bg-body-secondary py-2 py-lg-2 px-2"
+        >
+          <div>
+            <i
+              class="bi bi-list sidebar-toggle d-block d-lg-none"
+              onclick="toggleSidebar()"
+            ></i>
+          </div>
+          <h5 class="fw-normal pt-2">Manage Student</h5>
+        </div>
+
+        <div class="conatiner text-center p-2">
+          <div class="text-start bg-body-secondary p-3 rounded-2">
+            <div class="bg-light rounded-2 p-4">
+              <!-- Button trigger modal -->
+            </div>
+          </div>
+        </div>
+        <div class="container my-4">
+          <div id="enrolledCards" class="row g-3"></div>
+        </div>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="studentsModal"
+          tabindex="-1"
+          aria-labelledby="studentsModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="studentsModalLabel">
+                  Enrolled Students
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <table class="table table-bordered">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Strand</th>
+                      <th>Grade</th>
+                      <th>Section</th>
+                    </tr>
+                  </thead>
+                  <tbody id="studentsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -131,6 +183,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="../../assets/js/admin.js"></script>
+    <script src="../../assets/js/admin-student.js"></script>
   </body>
 </html>

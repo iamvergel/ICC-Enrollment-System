@@ -204,28 +204,8 @@
               "<div class='alert alert-danger'>Student subject data not found.</div>";
           } else {
             const data = querySnapshot.docs[0].data();
-            let html = "<ul class='list-group'>";
-            db.collection("subjects")
-              .where("grade", "==", data.grade)
-              .where("strand", "==", data.strand)
-              .get()
-              .then((querySnapshot) => {
-                if (querySnapshot.empty) {
-                  document.getElementById("subjectInfo").innerHTML =
-                    "<div class='alert alert-danger'>No subjects found.</div>";
-                } else {
-                  querySnapshot.forEach((doc) => {
-                    html += `<li class='list-group-item'><strong>${doc.data().subjectname}:</strong> ${doc.data().subjectdescription}</li>`;
-                  });
-                  html += "</ul>";
-                  document.getElementById("subjectInfo").innerHTML = html;
-                }
-              })
-              .catch((error) => {
-                console.error("Error fetching student data:", error);
-                document.getElementById("subjectInfo").innerHTML =
-                  "<div class='alert alert-danger'>Error loading student data.</div>";
-              });
+            let html = `<textarea class="form-control" rows="5" disabled>${data.subjects}</textarea>`;
+            document.getElementById("subjectInfo").innerHTML = html;
           }
         })
         .catch((error) => {
