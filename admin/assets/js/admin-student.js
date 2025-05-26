@@ -20,7 +20,6 @@ if (!role || role !== "admin") {
 
 document.getElementById("admin-email").textContent = email || "Admin";
 
-// Fetch all ENROLLED registrations and group them by strand, grade, and section
 db.collection("registrations")
   .where("status", "==", "Enrolled")
   .get()
@@ -41,48 +40,63 @@ db.collection("registrations")
     Object.keys(groups).forEach((key, index) => {
       const [strand, grade, section] = key.split("-");
       const cardHTML = `
-        <div class="col-md-4">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Strand: ${strand}</h5>
-              <p class="card-text">Grade: ${grade}</p>
-              <p class="card-text">Section: ${section}</p>
-              <button class="btn btn-primary" onclick="showStudents('${strand}', '${grade}', '${section}')">Show Students</button>
-            </div>
-          </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="fw-semibold text-primary">${strand}</span>
+          <span class="badge bg-secondary">Grade ${grade}</span>
         </div>
-      `;
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <p class="mb-0 fw-medium"><small>Section:</small> ${section}</p>
+          <button class="btn btn-sm btn-outline-primary" onclick="showStudents('${strand}', '${grade}', '${section}')">
+            Show Students
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
       container.innerHTML += cardHTML;
     });
 
-    // Store data in global variable for modal usage
     window.enrolledGroups = groups;
   })
   .catch((error) => {
     console.error("Error fetching enrolled data:", error);
   });
 
+let dataTableInstance;
+
 function showStudents(strand, grade, section) {
   const key = `${strand}-${grade}-${section}`;
   const students = window.enrolledGroups[key] || [];
 
-  const tbody = document.getElementById("studentsTableBody");
-  tbody.innerHTML = "";
+  const modalTitle = document.getElementById("studentsModalLabel");
+  modalTitle.textContent = `${strand} | Grade ${grade} | Section ${section}`;
 
-  students.forEach((student) => {
-    const row = `
-      <tr>
-        <td>${student.firstname} ${student.middlename} ${student.lastname}</td>
-        <td>${student.email}</td>
-        <td>${student.strand}</td>
-        <td>${student.grade}</td>
-        <td>${student.section}</td>
-      </tr>
-    `;
-    tbody.innerHTML += row;
+  const tbody = document.getElementById("studentsTableBody");
+  tbody.innerHTML = students
+    .map(
+      (student) => `
+    <tr>
+      <td>${student.firstname} ${student.middlename} ${student.lastname}</td>
+      <td>${student.email}</td>
+      <td>${student.strand}</td>
+      <td>${student.grade}</td>
+      <td>${student.section}</td>
+    </tr>
+  `
+    )
+    .join("");
+
+  // Reinitialize DataTable every time
+  if (dataTableInstance) {
+    dataTableInstance.destroy();
+  }
+  dataTableInstance = $("#studentsTable").DataTable({
+    responsive: true,
+    autoWidth: false,
   });
 
-  // Show Bootstrap modal
   const modal = new bootstrap.Modal(document.getElementById("studentsModal"));
   modal.show();
 }

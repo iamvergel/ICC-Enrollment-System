@@ -46,7 +46,6 @@ function logout() {
 function loadStudentTable() {
   db.collection("registrations")
     .where("role", "==", "student")
-    .where("status", "==", "Pending")
     .get()
     .then((querySnapshot) => {
       const students = [];
@@ -79,9 +78,15 @@ function renderTable(dataArray) {
         <td>${data.firstname} ${data.middlename} ${data.lastname}</td>
         <td>${data.grade}</td>
         <td>${data.strand}</td>
-        <td>${data.status}</td>
         <td>
-          <button class="btn btn-sm btn-primary border-0 btn-sm edit-btn" data-id="${data.id}"><i class="bi bi-pencil-square"></i> Edit</button>
+          <span class="badge rounded-pill ${
+            data.status === "Pending" ? "bg-warning" : "bg-success"
+          }">${data.status}</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary border-0 btn-sm edit-btn" data-id="${
+            data.id
+          }"><i class="bi bi-pencil-square"></i> Edit</button>
         </td>
       </tr>
     `;
@@ -107,7 +112,8 @@ function loadSections() {
 
   if (!strand || !grade) return Promise.resolve();
 
-  return db.collection("subjects")
+  return db
+    .collection("subjects")
     .where("strand", "==", strand)
     .where("grade", "==", grade)
     .get()
@@ -160,19 +166,30 @@ $(document).on("click", ".edit-btn", function () {
       document.getElementById("editContact").value = data.contact || "";
       document.getElementById("editGrade").value = data.grade || "";
       document.getElementById("editStrand").value = data.strand || "";
+      document.getElementById("editStatus").value = data.status || "";
+
+      const gradeSelect = document.getElementById("editGrade");
+      const strandSelect = document.getElementById("editStrand");
+
+      if (data.status === "Enrolled") {
+        gradeSelect.removeAttribute("disabled");
+        strandSelect.removeAttribute("disabled");
+      } else {
+        gradeSelect.setAttribute("disabled", true);
+        strandSelect.setAttribute("disabled", true);
+      }
 
       // Auto-load sections based on grade and strand
       loadSections().then(() => {
         document.getElementById("editSection").value = data.section || "";
       });
 
-      document.getElementById("editStatus").value = data.status || "";
-
       const editModal = new bootstrap.Modal(
         document.getElementById("editStudentModal")
       );
       editModal.show();
     })
+
     .catch((error) => {
       console.error("Error fetching student:", error);
       alert("Could not fetch student data.");
@@ -232,4 +249,3 @@ document
   });
 
 loadStudentTable();
-

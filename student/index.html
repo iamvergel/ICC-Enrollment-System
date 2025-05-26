@@ -52,10 +52,7 @@
         <hr />
         <ul class="nav nav-pills flex-column mb-auto">
           <li>
-            <a
-              href="../student/index.html"
-              class="nav-link"
-              id="dashboardLink"
+            <a href="../student/index.html" class="nav-link" id="dashboardLink"
               ><i class="bi bi-grid me-2"></i> Dashboard</a
             >
           </li>
@@ -99,7 +96,7 @@
               height="32"
               class="rounded-circle me-2"
             />
-            <strong id="admin-email" style="font-size: 12px;"></strong>
+            <strong id="admin-email" style="font-size: 12px"></strong>
           </a>
           <ul class="dropdown-menu text-small shadow">
             <li>
@@ -195,25 +192,66 @@
             "<div class='alert alert-danger'>Error loading student data.</div>";
         });
 
-      db.collection("subjects")
-        .where("strand", "==", data.strand)
-        .where("grade", "==", data.grade)
+      db.collection("registrations")
+        .where("email", "==", email)
         .get()
         .then((querySnapshot) => {
           if (querySnapshot.empty) {
-            document.getElementById("subjectInfo").innerHTML =
-              "<div class='alert alert-danger'>Student subject data not found.</div>";
+            document.getElementById("studentInfo").innerHTML =
+              "<div class='alert alert-danger'>Student data not found.</div>";
           } else {
             const data = querySnapshot.docs[0].data();
-            let html = `<textarea class="form-control" rows="5" disabled>${data.subjects}</textarea>`;
-            document.getElementById("subjectInfo").innerHTML = html;
+            document.getElementById("studentName").textContent = `${
+              data.lastname
+            }, ${data.firstname} ${data.middlename || ""}`;
+
+            let html = "<ul class='list-group'>";
+            for (let key in data) {
+              html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
+            }
+            html += "</ul>";
+            document.getElementById("studentInfo").innerHTML = html;
+
+            db.collection("subjects")
+              .where("strand", "==", data.strand)
+              .where("grade", "==", data.grade)
+              .get()
+              .then((querySnapshot) => {
+                if (querySnapshot.empty) {
+                  document.getElementById("subjectInfo").innerHTML =
+                    "<div class='alert alert-danger'>Student subject data not found.</div>";
+                } else {
+                  const subjectData = querySnapshot.docs[0].data();
+                  let subjectsList = subjectData.subjects
+                    .split(/[\n,]+/) // split by newline or comma
+                    .filter((s) => s.trim() !== "");
+
+                  let subjectHtml = "<h5 class='card-title fw-bold'>Subjects:</h5><ul class='list-group'>";
+                  subjectsList.forEach((subject) => {
+                    const words = subject.trim().split(/\s+/); // split subject into words by space
+                    const dottedSubject = words
+                      .map((word) => `• ${word}`)
+                      .join(" ");
+                    subjectHtml += `<li class='list-group-item'>${dottedSubject}</li>`;
+                  });
+                  subjectHtml += "</ul>";
+                  document.getElementById("subjectInfo").innerHTML =
+                    subjectHtml;
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching subject data:", error);
+                document.getElementById("subjectInfo").innerHTML =
+                  "<div class='alert alert-danger'>Error loading subject data.</div>";
+              });
           }
         })
         .catch((error) => {
           console.error("Error fetching student data:", error);
-          document.getElementById("subjectInfo").innerHTML =
+          document.getElementById("studentInfo").innerHTML =
             "<div class='alert alert-danger'>Error loading student data.</div>";
         });
+
       function logout() {
         const confirmLogout = confirm("Are you sure you want to logout?");
         if (confirmLogout) {

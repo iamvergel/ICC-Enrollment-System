@@ -18,35 +18,87 @@ if (!role || role !== "admin") {
   window.location.href = "../../../index.html";
 }
 
-// document.getElementById("adminEmail").textContent = email;
+document.getElementById("adminName").textContent = email;
 document.getElementById("admin-email").textContent = email || "Admin";
 
+const dashboardCards = document.getElementById("dashboardCards");
+
 db.collection("registrations")
-  .where("email", "==", email)
   .get()
   .then((querySnapshot) => {
-    if (querySnapshot.empty) {
-      document.getElementById("adminInfo").innerHTML =
-        "<div class='alert alert-danger'>Admin data not found.</div>";
-    } else {
-      const data = querySnapshot.docs[0].data();
-      document.getElementById("adminName").textContent =
-        data.firstname + " " + data.middlename + " " + data.lastname || "Admin";
+    let totalStudents = 0;
+    let grade11 = 0;
+    let grade12 = 0;
+    const strandCounts = {};
 
-      
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
 
-      let html = "<ul class='list-group'>";
-      for (let key in data) {
-        html += `<li class='list-group-item'><strong>${key}:</strong> ${data[key]}</li>`;
+      if (data.role === "student") {
+        totalStudents++;
+
+        if (data.grade == "Grade 11") grade11++;
+        else if (data.grade == "Grade 12") grade12++;
+
+        if (data.strand) {
+          if (!strandCounts[data.strand]) strandCounts[data.strand] = 0;
+          strandCounts[data.strand]++;
+        }
       }
-      html += "</ul>";
-      document.getElementById("adminInfo").innerHTML = html;
+    });
+
+    let html = `
+      <div class="col-md-4">
+        <div class="card text-white bg-primary shadow">
+          <div class="card-body">
+            <h5 class="card-title">Total Students</h5>
+            <p class="card-text fs-4">${totalStudents}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-white bg-success shadow">
+          <div class="card-body">
+            <h5 class="card-title">Grade 11</h5>
+            <p class="card-text fs-4">${grade11}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-white bg-info shadow">
+          <div class="card-body">
+            <h5 class="card-title">Grade 12</h5>
+            <p class="card-text fs-4">${grade12}</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const colors = ["warning", "danger", "secondary", "dark"];
+    let i = 0;
+
+    for (const strand in strandCounts) {
+      const color = colors[i % colors.length];
+      html += `
+        <div class="col-md-4">
+          <div class="card text-white bg-${color} shadow">
+            <div class="card-body">
+              <h5 class="card-title">${strand}</h5>
+              <p class="card-text fs-4">${strandCounts[strand]} students</p>
+            </div>
+          </div>
+        </div>
+      `;
+      i++;
     }
+
+    dashboardCards.innerHTML = html;
   })
   .catch((error) => {
-    console.error("Error fetching admin data:", error);
-    document.getElementById("adminInfo").innerHTML =
-      "<div class='alert alert-danger'>Error loading admin data.</div>";
+    console.error("Error loading dashboard data:", error);
+    dashboardCards.innerHTML = `<div class='alert alert-danger'>Unable to load dashboard statistics.</div>`;
   });
 
 function logout() {
